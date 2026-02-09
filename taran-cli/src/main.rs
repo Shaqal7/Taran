@@ -7,7 +7,7 @@ use taran_config::Scenario;
 use taran_core::runner::TestRunner;
 use taran_report::ConsoleReporter;
 use tracing::info;
-use tracing_subscriber;
+
 
 #[tokio::main]
 async fn main() -> Result<()> {

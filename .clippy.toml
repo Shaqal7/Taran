@@ -1,15 +1,5 @@
 # Clippy configuration
 # Run with: cargo clippy --all-targets --all-features -- -D warnings
 
-# Deny warnings in CI
-[clippy]
-# Performance lints
-pedantic = "warn"
-nursery = "warn"
-
-# Restriction lints we want to enable
-missing-errors-doc = "allow"  # Allow for now, enforce later
-missing-panics-doc = "allow"  # Allow for now, enforce later
-
 # Allowed complexity
 cognitive-complexity-threshold = 25

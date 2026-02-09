@@ -91,15 +91,16 @@ pub struct Extractor {
 }
 
 impl Scenario {
+    /// Load scenario from TOML content
+    pub fn from_toml(content: &str) -> Result<Self> {
+        let content = toml::from_str(content).map_err(ConfigError::TomlParse)?;
+        Ok(content)
+    }
+
     /// Load scenario from TOML file
     pub fn from_file(path: &std::path::Path) -> Result<Self> {
         let content = std::fs::read_to_string(path).map_err(ConfigError::FileRead)?;
-        Self::from_str(&content)
-    }
-
-    /// Parse scenario from TOML string
-    pub fn from_str(content: &str) -> Result<Self> {
-        toml::from_str(content).map_err(ConfigError::TomlParse)
+        Self::from_toml(&content)
     }
 
     /// Validate the scenario configuration
@@ -148,7 +149,7 @@ protocol = "http"
 method = "GET"
 url = "https://example.com/"
 "#;
-        let scenario = Scenario::from_str(toml).unwrap();
+        let scenario = Scenario::from_toml(toml).unwrap();
         assert_eq!(scenario.scenario.name, "Basic HTTP Test");
         assert_eq!(scenario.steps.len(), 1);
     }

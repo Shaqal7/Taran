@@ -139,7 +139,7 @@ impl TestRunner {
         } else {
             self.collector.record_failure(
                 &result.step_name,
-                &result.error.as_ref().unwrap_or(&"Unknown error".to_string()),
+                result.error.as_deref().unwrap_or("Unknown error"),
                 result.duration,
             );
         }

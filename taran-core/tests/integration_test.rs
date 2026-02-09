@@ -39,7 +39,7 @@ status = 200
         mock_server.uri()
     );
 
-    let scenario = Scenario::from_str(&toml).expect("Failed to parse scenario");
+    let scenario = Scenario::from_toml(&toml).expect("Failed to parse scenario");
     scenario.validate().expect("Scenario validation failed");
 
     let runner = TestRunner::new(scenario);
@@ -105,7 +105,7 @@ body = '{{"key": "value"}}'
         mock_server.uri()
     );
 
-    let scenario = Scenario::from_str(&toml).expect("Failed to parse scenario");
+    let scenario = Scenario::from_toml(&toml).expect("Failed to parse scenario");
     let runner = TestRunner::new(scenario);
     let summary = runner.run().await.expect("Test execution failed");
 
