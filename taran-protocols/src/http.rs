@@ -123,21 +123,15 @@ impl HttpClient {
     }
 }
 
-impl Default for HttpClient {
-    fn default() -> Self {
-        Self::new().expect("Failed to create default HTTP client")
-    }
-}
-
 impl HttpResponse {
     /// Parse response body as JSON
     pub fn json(&self) -> Result<Value> {
         serde_json::from_str(&self.body)
-            .map_err(|e| ProtocolError::InvalidResponse(format!("JSON parse error: {}", e)))
+            .map_err(|e| ProtocolError::InvalidResponse(format!("JSON parse error: {e}")))
     }
 
     /// Check if response is successful (2xx status code)
-    pub fn is_success(&self) -> bool {
+    pub const fn is_success(&self) -> bool {
         self.status >= 200 && self.status < 300
     }
 
@@ -156,7 +150,7 @@ fn parse_method(method: &str) -> Result<Method> {
         "PATCH" => Ok(Method::PATCH),
         "HEAD" => Ok(Method::HEAD),
         "OPTIONS" => Ok(Method::OPTIONS),
-        _ => Err(ProtocolError::InvalidResponse(format!("Unsupported HTTP method: {}", method))),
+        _ => Err(ProtocolError::InvalidResponse(format!("Unsupported HTTP method: {method}"))),
     }
 }
 

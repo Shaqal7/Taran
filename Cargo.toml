@@ -54,6 +54,33 @@ hdrhistogram = "7.5"
 # Testing
 wiremock = "0.6"
 
+[workspace.lints.clippy]
+# Lint groups at lower priority so individual overrides work
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+# Hard denials per CLAUDE.md
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+# Phase 0 relaxations — enforce later
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+missing_docs_in_private_items = "allow"
+# Allow cast truncation in Phase 0 (latency u128→u64 is safe for practical values)
+cast_possible_truncation = "allow"
+cast_precision_loss = "allow"
+cast_sign_loss = "allow"
+# Allow module name repetitions (e.g. ConfigError in taran-config)
+module_name_repetitions = "allow"
+# Significant drop tightening — too noisy for Mutex-based Phase 0
+significant_drop_tightening = "allow"
+# must_use on every getter is too noisy for Phase 0
+must_use_candidate = "allow"
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+
 [profile.release]
 opt-level = 3
 lto = "thin"

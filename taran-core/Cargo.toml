@@ -8,6 +8,9 @@ repository.workspace = true
 homepage.workspace = true
 rust-version.workspace = true
 
+[lints]
+workspace = true
+
 [dependencies]
 # Internal crates
 taran-config = { path = "../taran-config" }

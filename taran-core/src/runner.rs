@@ -30,7 +30,7 @@ impl TestRunner {
 
         for i in 0..iterations {
             context.iteration = i;
-            info!("VU 0, iteration {}", i);
+            info!("VU 0, iteration {i}");
 
             for step in &self.scenario.steps {
                 let result = self.execute_step(step, &mut context).await;
@@ -75,7 +75,7 @@ impl TestRunner {
                     step_name: step.name.clone(),
                     success: false,
                     duration: start.elapsed(),
-                    error: Some(format!("Failed to create HTTP client: {}", e)),
+                    error: Some(format!("Failed to create HTTP client: {e}")),
                     status_code: None,
                     bytes_sent: 0,
                     bytes_received: 0,
@@ -97,11 +97,10 @@ impl TestRunner {
                 let duration = response.duration;
 
                 // Check assertions if present
-                let assertion_error = if let Some(assertions) = &step.assertions {
-                    check_assertions(assertions, &response)
-                } else {
-                    None
-                };
+                let assertion_error = step
+                    .assertions
+                    .as_ref()
+                    .and_then(|assertions| check_assertions(assertions, &response));
 
                 // TODO: Extract variables if extractors are defined
                 // This will be implemented in Phase 1
@@ -120,7 +119,7 @@ impl TestRunner {
                 step_name: step.name.clone(),
                 success: false,
                 duration: start.elapsed(),
-                error: Some(format!("Request failed: {}", e)),
+                error: Some(format!("Request failed: {e}")),
                 status_code: None,
                 bytes_sent: 0,
                 bytes_received: 0,
@@ -171,7 +170,7 @@ fn check_assertions(
     // Check body contains
     if let Some(expected_text) = &assertions.body_contains {
         if !response.body.contains(expected_text) {
-            return Some(format!("Response body does not contain '{}'", expected_text));
+            return Some(format!("Response body does not contain '{expected_text}'"));
         }
     }
 

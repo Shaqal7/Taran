@@ -117,10 +117,10 @@ impl Scenario {
 
         for (i, step) in self.steps.iter().enumerate() {
             if step.name.is_empty() {
-                return Err(ConfigError::MissingField(format!("steps[{}].name", i)));
+                return Err(ConfigError::MissingField(format!("steps[{i}].name")));
             }
             if step.url.is_empty() {
-                return Err(ConfigError::MissingField(format!("steps[{}].url", i)));
+                return Err(ConfigError::MissingField(format!("steps[{i}].url")));
             }
         }
 
@@ -129,6 +129,7 @@ impl Scenario {
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used)]
 mod tests {
     use super::*;
 

@@ -379,24 +379,34 @@ taran-core/
 
 - `rustfmt` — obowiązkowe, konfiguracja w `rustfmt.toml`:
   ```toml
-  edition = "2021"
   max_width = 100
+  edition = "2021"
+  use_small_heuristics = "Max"
   tab_spaces = 4
-  use_small_heuristics = "Default"
-  imports_granularity = "Module"
-  group_imports = "StdExternalCrate"
+  newline_style = "Unix"
+  reorder_imports = true
+  reorder_modules = true
   ```
-- `clippy` — obowiązkowe, konfiguracja w `Cargo.toml` lub `.clippy.toml`:
+  > **Uwaga:** `imports_granularity` i `group_imports` to unstable features dostępne
+  > tylko na nightly rustfmt. Na stable toolchain (CI) są ignorowane, dlatego NIE
+  > umieszczamy ich w `rustfmt.toml`.
+
+- `clippy` — obowiązkowe, konfiguracja w `Cargo.toml` (`[workspace.lints.clippy]`):
   ```toml
   [workspace.lints.clippy]
-  all = "warn"
-  pedantic = "warn"
-  nursery = "warn"
+  all = { level = "warn", priority = -1 }
+  pedantic = { level = "warn", priority = -1 }
+  nursery = { level = "warn", priority = -1 }
   unwrap_used = "deny"
   expect_used = "deny"
   panic = "deny"
   ```
-- **Traktuj ostrzeżenia jako błędy w CI** (`RUSTFLAGS="-D warnings"`)
+  Grupy lintów (`all`, `pedantic`, `nursery`) muszą mieć `priority = -1`,
+  aby indywidualne overridy (np. `missing_errors_doc = "allow"`) miały wyższy priorytet.
+
+  Każdy crate musi zawierać `[lints] workspace = true` w swoim `Cargo.toml`.
+
+- **Traktuj ostrzeżenia jako błędy w CI** (`cargo clippy -- -D warnings`)
 
 ---
 

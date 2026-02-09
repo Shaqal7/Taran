@@ -48,6 +48,13 @@ pub struct MetricsSummary {
 }
 
 impl SimpleCollector {
+    /// Lock inner state, recovering from mutex poisoning.
+    /// Poisoning means a thread panicked while holding the lock —
+    /// we still want to access the data rather than propagate panic.
+    fn lock_inner(&self) -> std::sync::MutexGuard<'_, CollectorInner> {
+        self.inner.lock().unwrap_or_else(std::sync::PoisonError::into_inner)
+    }
+
     pub fn new() -> Self {
         Self {
             inner: Arc::new(Mutex::new(CollectorInner {
@@ -71,7 +78,7 @@ impl SimpleCollector {
         bytes_sent: u64,
         bytes_received: u64,
     ) {
-        let mut inner = self.inner.lock().unwrap();
+        let mut inner = self.lock_inner();
         inner.total_requests += 1;
         inner.successful_requests += 1;
         inner.total_bytes_sent += bytes_sent;
@@ -86,7 +93,7 @@ impl SimpleCollector {
 
     /// Record a failed request
     pub fn record_failure(&self, step_name: &str, error: &str, latency: Duration) {
-        let mut inner = self.inner.lock().unwrap();
+        let mut inner = self.lock_inner();
         inner.total_requests += 1;
         inner.failed_requests += 1;
         inner.latencies.push(latency);
@@ -101,7 +108,7 @@ impl SimpleCollector {
 
     /// Get a summary of all collected metrics
     pub fn summary(&self) -> MetricsSummary {
-        let inner = self.inner.lock().unwrap();
+        let inner = self.lock_inner();
 
         let mut sorted_latencies: Vec<u64> =
             inner.latencies.iter().map(|d| d.as_millis() as u64).collect();
@@ -145,7 +152,7 @@ impl SimpleCollector {
 
     /// Reset all metrics
     pub fn reset(&self) {
-        let mut inner = self.inner.lock().unwrap();
+        let mut inner = self.lock_inner();
         inner.total_requests = 0;
         inner.successful_requests = 0;
         inner.failed_requests = 0;

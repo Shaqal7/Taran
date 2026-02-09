@@ -1,4 +1,5 @@
 //! Integration tests for taran-core
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 
 use taran_config::Scenario;
 use taran_core::runner::TestRunner;

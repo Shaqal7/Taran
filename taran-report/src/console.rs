@@ -5,7 +5,7 @@ use taran_metrics::MetricsSummary;
 pub struct ConsoleReporter;
 
 impl ConsoleReporter {
-    pub fn new() -> Self {
+    pub const fn new() -> Self {
         Self
     }
 
@@ -40,7 +40,7 @@ impl ConsoleReporter {
         if !summary.errors_by_type.is_empty() {
             println!("Errors:");
             for (error_type, count) in &summary.errors_by_type {
-                println!("  {}: {}", error_type, count);
+                println!("  {error_type}: {count}");
             }
             println!();
         }

@@ -8,6 +8,9 @@ repository.workspace = true
 homepage.workspace = true
 rust-version.workspace = true
 
+[lints]
+workspace = true
+
 [dependencies]
 # Workspace dependencies
 thiserror = { workspace = true }

@@ -7,7 +7,7 @@ use std::time::Duration;
 pub struct HumanDuration(pub Duration);
 
 impl HumanDuration {
-    pub fn as_duration(&self) -> Duration {
+    pub const fn as_duration(&self) -> Duration {
         self.0
     }
 }
@@ -37,10 +37,10 @@ fn parse_duration(s: &str) -> Result<Duration, String> {
     let split_pos = s
         .chars()
         .position(|c| !c.is_numeric() && c != '.')
-        .ok_or_else(|| format!("Missing time unit in '{}'", s))?;
+        .ok_or_else(|| format!("Missing time unit in '{s}'"))?;
 
     let (num_str, unit) = s.split_at(split_pos);
-    let value: f64 = num_str.parse().map_err(|_| format!("Invalid number: '{}'", num_str))?;
+    let value: f64 = num_str.parse().map_err(|_| format!("Invalid number: '{num_str}'"))?;
 
     let duration = match unit.trim() {
         "ns" => Duration::from_nanos(value as u64),
@@ -49,7 +49,7 @@ fn parse_duration(s: &str) -> Result<Duration, String> {
         "s" => Duration::from_secs_f64(value),
         "m" => Duration::from_secs_f64(value * 60.0),
         "h" => Duration::from_secs_f64(value * 3600.0),
-        _ => return Err(format!("Unknown time unit: '{}'", unit)),
+        _ => return Err(format!("Unknown time unit: '{unit}'")),
     };
 
     Ok(duration)
@@ -60,17 +60,19 @@ fn format_duration(d: Duration) -> String {
     let millis = d.subsec_millis();
 
     if secs == 0 {
-        format!("{}ms", millis)
+        format!("{millis}ms")
     } else if secs % 60 == 0 && millis == 0 {
-        format!("{}m", secs / 60)
+        let mins = secs / 60;
+        format!("{mins}m")
     } else if millis == 0 {
-        format!("{}s", secs)
+        format!("{secs}s")
     } else {
-        format!("{}.{:03}s", secs, millis)
+        format!("{secs}.{millis:03}s")
     }
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used)]
 mod tests {
     use super::*;
 
