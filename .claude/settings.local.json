@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd /c dir:*)",
+      "Bash(powershell:*)",
+      "Bash(rustc:*)",
+      "Bash(cargo --version:*)"
+    ]
+  }
+}

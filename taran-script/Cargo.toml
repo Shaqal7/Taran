@@ -1,0 +1,15 @@
+[package]
+name = "taran-script"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+# Workspace dependencies
+rhai = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }

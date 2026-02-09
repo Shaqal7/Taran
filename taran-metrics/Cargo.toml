@@ -1,0 +1,15 @@
+[package]
+name = "taran-metrics"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+# Workspace dependencies
+thiserror = { workspace = true }
+serde = { workspace = true }
+hdrhistogram = { workspace = true }

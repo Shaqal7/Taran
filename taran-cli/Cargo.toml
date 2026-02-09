@@ -1,0 +1,26 @@
+[package]
+name = "taran-cli"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+# Internal crates
+taran-core = { path = "../taran-core" }
+taran-config = { path = "../taran-config" }
+taran-report = { path = "../taran-report" }
+
+# Workspace dependencies
+tokio = { workspace = true }
+clap = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+[[bin]]
+name = "taran"
+path = "src/main.rs"
