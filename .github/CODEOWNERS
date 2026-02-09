@@ -1,0 +1,10 @@
+# CODEOWNERS - Define code ownership and review requirements
+# 
+# This file defines who should review changes in specific parts of the repository.
+# When a pull request is opened, the defined owners will be automatically requested as reviewers.
+#
+# Learn more about CODEOWNERS: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+# These users will be requested for review when someone opens a pull request
+* @Shaqal7

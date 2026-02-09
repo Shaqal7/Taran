@@ -1,0 +1,51 @@
+# GitHub repository settings
+# This file is used by the GitHub Settings App (https://github.com/apps/settings)
+# to automatically configure repository settings including branch protection rules.
+
+repository:
+  # General repository settings
+  name: Taran
+  description: Taran repository
+  topics: []
+  
+  # Repository features
+  has_issues: true
+  has_projects: true
+  has_wiki: true
+  has_downloads: true
+  
+  # Security
+  allow_squash_merge: true
+  allow_merge_commit: true
+  allow_rebase_merge: true
+  delete_branch_on_merge: true
+
+# Branch protection rules
+branches:
+  - name: main
+    # Require pull request reviews before merging
+    protection:
+      required_pull_request_reviews:
+        # Require at least one approving review
+        required_approving_review_count: 1
+        # Dismiss stale pull request approvals when new commits are pushed
+        dismiss_stale_reviews: true
+        # Require review from code owners
+        require_code_owner_reviews: false
+      
+      # Require status checks to pass before merging
+      required_status_checks:
+        # Require branches to be up to date before merging
+        strict: true
+        contexts: []
+      
+      # Enforce restrictions for administrators
+      enforce_admins: false
+      
+      # Restrict who can push to matching branches
+      restrictions: null
+      
+      # Prevent direct pushes to the branch
+      required_linear_history: false
+      allow_force_pushes: false
+      allow_deletions: false
