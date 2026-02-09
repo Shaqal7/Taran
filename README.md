@@ -1,5 +1,14 @@
 # Taran
 
+## Contributing
+
+This repository uses branch protection rules to maintain code quality. The `main` branch is protected and requires:
+- All changes to be made through Pull Requests
+- At least one approving review before merging
+- No direct pushes to `main`
+
+Please see [.github/BRANCH_PROTECTION.md](.github/BRANCH_PROTECTION.md) for detailed contribution guidelines.
+
 ## License
 
 This project is dual-licensed under either of:
