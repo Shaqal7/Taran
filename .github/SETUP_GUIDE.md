@@ -35,8 +35,9 @@ W tej sekcji zaznacz:
   - Ustaw liczbę wymaganych zatwierdzeń: **1** (lub więcej)
 - ✅ **Dismiss stale pull request approvals when new commits are pushed**
   - Odrzuć stare zatwierdzenia gdy nowe commity zostaną dodane
-- ✅ **Require review from Code Owners** (zalecane)
+- ✅ **Require review from Code Owners** (wymagane)
   - Wymagaj recenzji od właścicieli kodu (zdefiniowanych w pliku CODEOWNERS)
+  - To ustawienie jest wymagane w naszej konfiguracji
 
 #### ✅ Require status checks to pass before merging (opcjonalne)
 **Wymagaj przejścia testów przed mergowaniem**
@@ -54,9 +55,10 @@ Jeśli masz skonfigurowane CI/CD:
 #### ⬜ Require linear history (opcjonalne)
 **Wymagaj liniowej historii**
 
-#### ⬜ Include administrators (opcjonalne)
+#### ✅ Include administrators (wymagane)
 **Stosuj zasady również do administratorów**
-- Zaznacz to, jeśli chcesz aby zasady obowiązywały również administratorów repozytorium
+- **Zaznacz to** - zasady obowiązują wszystkich użytkowników włącznie z administratorami
+- To ustawienie jest wymagane w naszej konfiguracji dla maksymalnej ochrony
 
 #### ✅ Do not allow bypassing the above settings
 **Nie pozwalaj na omijanie powyższych ustawień**
