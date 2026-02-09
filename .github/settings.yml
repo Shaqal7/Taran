@@ -30,8 +30,8 @@ branches:
         required_approving_review_count: 1
         # Dismiss stale pull request approvals when new commits are pushed
         dismiss_stale_reviews: true
-        # Require review from code owners
-        require_code_owner_reviews: false
+        # Require review from code owners (CODEOWNERS file defines owners)
+        require_code_owner_reviews: true
       
       # Require status checks to pass before merging
       required_status_checks:
@@ -40,7 +40,8 @@ branches:
         contexts: []
       
       # Enforce restrictions for administrators
-      enforce_admins: false
+      # Set to true to ensure branch protection applies to everyone including admins
+      enforce_admins: true
       
       # Restrict who can push to matching branches
       restrictions: null

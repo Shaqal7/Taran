@@ -9,8 +9,10 @@ The `main` branch is protected to ensure code quality and prevent accidental or 
 1. **No Direct Pushes**: Direct pushes to the `main` branch are **blocked**
 2. **Pull Request Required**: All changes must go through a Pull Request (PR)
 3. **Code Review Required**: At least one approving review is required before merging
-4. **No Force Push**: Force pushes to `main` are not allowed
-5. **No Deletion**: The `main` branch cannot be deleted
+4. **Code Owner Review**: Reviews from code owners (defined in CODEOWNERS) are required
+5. **No Force Push**: Force pushes to `main` are not allowed
+6. **No Deletion**: The `main` branch cannot be deleted
+7. **Applies to Everyone**: These rules apply to all users, including repository administrators
 
 ### Workflow
 

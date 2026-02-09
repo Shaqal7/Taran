@@ -35,8 +35,8 @@ W tej sekcji zaznacz:
   - Ustaw liczbę wymaganych zatwierdzeń: **1** (lub więcej)
 - ✅ **Dismiss stale pull request approvals when new commits are pushed**
   - Odrzuć stare zatwierdzenia gdy nowe commity zostaną dodane
-- ⬜ **Require review from Code Owners** (opcjonalne)
-  - Wymagaj recenzji od właścicieli kodu
+- ✅ **Require review from Code Owners** (zalecane)
+  - Wymagaj recenzji od właścicieli kodu (zdefiniowanych w pliku CODEOWNERS)
 
 #### ✅ Require status checks to pass before merging (opcjonalne)
 **Wymagaj przejścia testów przed mergowaniem**
