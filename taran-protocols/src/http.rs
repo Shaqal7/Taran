@@ -71,7 +71,7 @@ impl HttpClient {
             .map_err(|e| ProtocolError::HttpRequestFailed(e.to_string()))?;
 
         let status = response.status().as_u16();
-        
+
         // Extract headers
         let mut headers = HashMap::new();
         for (key, value) in response.headers() {
@@ -81,27 +81,18 @@ impl HttpClient {
         }
 
         // Read body
-        let body_bytes = response
-            .bytes()
-            .await
-            .map_err(|e| ProtocolError::HttpRequestFailed(e.to_string()))?;
-        
+        let body_bytes =
+            response.bytes().await.map_err(|e| ProtocolError::HttpRequestFailed(e.to_string()))?;
+
         let body = String::from_utf8_lossy(&body_bytes).to_string();
         let bytes_received = body_bytes.len() as u64;
-        
+
         // Estimate bytes sent (rough approximation)
         let bytes_sent = estimate_request_size(&request);
 
         let duration = start.elapsed();
 
-        Ok(HttpResponse {
-            status,
-            headers,
-            body,
-            duration,
-            bytes_sent,
-            bytes_received,
-        })
+        Ok(HttpResponse { status, headers, body, duration, bytes_sent, bytes_received })
     }
 
     /// Convenience method for GET request
@@ -165,32 +156,29 @@ fn parse_method(method: &str) -> Result<Method> {
         "PATCH" => Ok(Method::PATCH),
         "HEAD" => Ok(Method::HEAD),
         "OPTIONS" => Ok(Method::OPTIONS),
-        _ => Err(ProtocolError::InvalidResponse(format!(
-            "Unsupported HTTP method: {}",
-            method
-        ))),
+        _ => Err(ProtocolError::InvalidResponse(format!("Unsupported HTTP method: {}", method))),
     }
 }
 
 fn estimate_request_size(request: &HttpRequest) -> u64 {
     let mut size = 0u64;
-    
+
     // Method + URL + HTTP version
     size += request.method.len() as u64;
     size += request.url.len() as u64;
     size += 10; // " HTTP/1.1\r\n"
-    
+
     // Headers
     for (key, value) in &request.headers {
         size += key.len() as u64 + value.len() as u64 + 4; // ": " + "\r\n"
     }
     size += 2; // Final "\r\n"
-    
+
     // Body
     if let Some(body) = &request.body {
         size += body.len() as u64;
     }
-    
+
     size
 }
 

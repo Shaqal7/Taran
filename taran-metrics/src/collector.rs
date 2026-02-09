@@ -1,9 +1,9 @@
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
-use serde::{Deserialize, Serialize};
 
-/// Simple metrics collector using Mutex<HashMap> 
+/// Simple metrics collector using Mutex<HashMap>
 /// This is Phase 0 implementation - will be replaced with lock-free HDR in Phase 3
 #[derive(Debug, Clone)]
 pub struct SimpleCollector {
@@ -64,7 +64,13 @@ impl SimpleCollector {
     }
 
     /// Record a successful request
-    pub fn record_success(&self, step_name: &str, latency: Duration, bytes_sent: u64, bytes_received: u64) {
+    pub fn record_success(
+        &self,
+        step_name: &str,
+        latency: Duration,
+        bytes_sent: u64,
+        bytes_received: u64,
+    ) {
         let mut inner = self.inner.lock().unwrap();
         inner.total_requests += 1;
         inner.successful_requests += 1;
@@ -96,12 +102,9 @@ impl SimpleCollector {
     /// Get a summary of all collected metrics
     pub fn summary(&self) -> MetricsSummary {
         let inner = self.inner.lock().unwrap();
-        
-        let mut sorted_latencies: Vec<u64> = inner
-            .latencies
-            .iter()
-            .map(|d| d.as_millis() as u64)
-            .collect();
+
+        let mut sorted_latencies: Vec<u64> =
+            inner.latencies.iter().map(|d| d.as_millis() as u64).collect();
         sorted_latencies.sort_unstable();
 
         let (avg, min, max, p50, p95, p99) = if sorted_latencies.is_empty() {
@@ -177,7 +180,7 @@ mod tests {
     fn test_collector_basic() {
         let collector = SimpleCollector::new();
         collector.record_success("test_step", Duration::from_millis(100), 1024, 2048);
-        
+
         let summary = collector.summary();
         assert_eq!(summary.total_requests, 1);
         assert_eq!(summary.successful_requests, 1);
@@ -190,7 +193,7 @@ mod tests {
         for i in 0..100 {
             collector.record_success("test", Duration::from_millis(i), 0, 0);
         }
-        
+
         let summary = collector.summary();
         assert!(summary.p50_latency_ms >= 45 && summary.p50_latency_ms <= 55);
         assert!(summary.p95_latency_ms >= 90);

@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use crate::duration::HumanDuration;
 use crate::error::{ConfigError, Result};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 /// Root scenario configuration
@@ -56,16 +56,16 @@ pub struct Step {
     pub protocol: String,
     pub method: String,
     pub url: String,
-    
+
     #[serde(default)]
     pub headers: HashMap<String, String>,
-    
+
     #[serde(default)]
     pub body: Option<String>,
-    
+
     #[serde(default)]
     pub assertions: Option<Assertions>,
-    
+
     #[serde(default)]
     pub extract: Option<HashMap<String, Extractor>>,
 }
@@ -74,27 +74,26 @@ pub struct Step {
 pub struct Assertions {
     #[serde(default)]
     pub status: Option<u16>,
-    
+
     #[serde(default)]
     pub max_response_time: Option<HumanDuration>,
-    
+
     #[serde(default)]
     pub body_contains: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Extractor {
-    pub from: String,  // "body", "header", "status"
+    pub from: String, // "body", "header", "status"
     #[serde(rename = "type")]
-    pub extractor_type: String,  // "jsonpath", "regex", "xpath"
+    pub extractor_type: String, // "jsonpath", "regex", "xpath"
     pub expr: String,
 }
 
 impl Scenario {
     /// Load scenario from TOML file
     pub fn from_file(path: &std::path::Path) -> Result<Self> {
-        let content = std::fs::read_to_string(path)
-            .map_err(ConfigError::FileRead)?;
+        let content = std::fs::read_to_string(path).map_err(ConfigError::FileRead)?;
         Self::from_str(&content)
     }
 

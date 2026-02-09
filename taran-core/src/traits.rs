@@ -1,5 +1,5 @@
+use crate::{error::Result, model::StepResult};
 use async_trait::async_trait;
-use crate::{model::StepResult, error::Result};
 
 /// Trait for protocol client implementations
 #[async_trait]
@@ -12,7 +12,7 @@ pub trait Protocol: Send + Sync {
 pub trait LoadProfile: Send + Sync {
     /// Calculate the number of VUs at a given time offset from test start
     fn virtual_users_at(&self, elapsed: std::time::Duration) -> usize;
-    
+
     /// Total duration of the test
     fn duration(&self) -> std::time::Duration;
 }
@@ -21,7 +21,7 @@ pub trait LoadProfile: Send + Sync {
 pub trait MetricsCollector: Send + Sync {
     /// Record a step result
     fn record(&self, result: &StepResult);
-    
+
     /// Get a snapshot of current metrics
     fn snapshot(&self) -> MetricsSnapshot;
 }

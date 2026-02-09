@@ -32,11 +32,7 @@ pub struct VirtualUserContext {
 
 impl VirtualUserContext {
     pub fn new(id: usize) -> Self {
-        Self {
-            id,
-            iteration: 0,
-            variables: std::collections::HashMap::new(),
-        }
+        Self { id, iteration: 0, variables: std::collections::HashMap::new() }
     }
 
     pub fn next_iteration(&mut self) {

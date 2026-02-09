@@ -3,7 +3,5 @@ edition = "2021"
 use_small_heuristics = "Max"
 tab_spaces = 4
 newline_style = "Unix"
-imports_granularity = "Crate"
-group_imports = "StdExternalCrate"
 reorder_imports = true
 reorder_modules = true

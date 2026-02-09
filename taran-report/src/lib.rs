@@ -1,5 +1,5 @@
-pub mod error;
 pub mod console;
+pub mod error;
 
-pub use error::{ReportError, Result};
 pub use console::ConsoleReporter;
+pub use error::{ReportError, Result};

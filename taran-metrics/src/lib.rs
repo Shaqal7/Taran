@@ -1,5 +1,5 @@
-pub mod error;
 pub mod collector;
+pub mod error;
 
+pub use collector::{MetricsSummary, SimpleCollector};
 pub use error::{MetricsError, Result};
-pub use collector::{SimpleCollector, MetricsSummary};

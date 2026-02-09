@@ -28,7 +28,7 @@ impl From<HumanDuration> for String {
 
 fn parse_duration(s: &str) -> Result<Duration, String> {
     let s = s.trim();
-    
+
     if s.is_empty() {
         return Err("Empty duration string".to_string());
     }
@@ -40,9 +40,7 @@ fn parse_duration(s: &str) -> Result<Duration, String> {
         .ok_or_else(|| format!("Missing time unit in '{}'", s))?;
 
     let (num_str, unit) = s.split_at(split_pos);
-    let value: f64 = num_str
-        .parse()
-        .map_err(|_| format!("Invalid number: '{}'", num_str))?;
+    let value: f64 = num_str.parse().map_err(|_| format!("Invalid number: '{}'", num_str))?;
 
     let duration = match unit.trim() {
         "ns" => Duration::from_nanos(value as u64),
@@ -60,7 +58,7 @@ fn parse_duration(s: &str) -> Result<Duration, String> {
 fn format_duration(d: Duration) -> String {
     let secs = d.as_secs();
     let millis = d.subsec_millis();
-    
+
     if secs == 0 {
         format!("{}ms", millis)
     } else if secs % 60 == 0 && millis == 0 {

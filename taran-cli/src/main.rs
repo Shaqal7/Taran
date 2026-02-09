@@ -15,18 +15,12 @@ async fn main() -> Result<()> {
 
     // Setup logging
     let log_level = if cli.verbose { "debug" } else { "info" };
-    tracing_subscriber::fmt()
-        .with_env_filter(log_level)
-        .init();
+    tracing_subscriber::fmt().with_env_filter(log_level).init();
 
     match cli.command {
-        Commands::Run {
-            scenario,
-            users,
-            duration,
-        } => {
+        Commands::Run { scenario, users, duration } => {
             info!("Loading scenario from: {}", scenario.display());
-            
+
             let config = Scenario::from_file(&scenario)
                 .with_context(|| format!("Failed to load scenario from {}", scenario.display()))?;
 
@@ -35,24 +29,21 @@ async fn main() -> Result<()> {
                 info!("Overriding VU count to: {}", user_count);
                 // TODO: Override users in config
             }
-            
+
             if let Some(dur) = duration {
                 info!("Overriding duration to: {}", dur);
                 // TODO: Override duration in config
             }
 
-            config.validate()
-                .context("Scenario validation failed")?;
+            config.validate().context("Scenario validation failed")?;
 
             info!("Running load test: {}", config.scenario.name);
-            
+
             let runner = TestRunner::new(config);
-            let summary = runner.run().await
-                .context("Test execution failed")?;
+            let summary = runner.run().await.context("Test execution failed")?;
 
             let reporter = ConsoleReporter::new();
-            reporter.print_summary(&summary)
-                .context("Failed to print summary")?;
+            reporter.print_summary(&summary).context("Failed to print summary")?;
 
             // Exit with error code if there were failures
             if summary.failed_requests > 0 {
@@ -62,12 +53,11 @@ async fn main() -> Result<()> {
 
         Commands::Validate { scenario } => {
             info!("Validating scenario: {}", scenario.display());
-            
+
             let config = Scenario::from_file(&scenario)
                 .with_context(|| format!("Failed to load scenario from {}", scenario.display()))?;
 
-            config.validate()
-                .context("Scenario validation failed")?;
+            config.validate().context("Scenario validation failed")?;
 
             println!("✓ Scenario is valid");
         }

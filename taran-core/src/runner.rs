@@ -1,10 +1,10 @@
 use crate::error::Result;
 use crate::model::{StepResult, VirtualUserContext};
-use taran_config::{Scenario, Assertions};
-use taran_metrics::{MetricsSummary, SimpleCollector};
-use taran_protocols::{HttpClient, HttpRequest};
 use std::sync::Arc;
 use std::time::Duration;
+use taran_config::{Assertions, Scenario};
+use taran_metrics::{MetricsSummary, SimpleCollector};
+use taran_protocols::{HttpClient, HttpRequest};
 use tracing::{debug, info, warn};
 
 /// Test runner - Phase 0 implementation with 1 VU, sequential execution
@@ -15,10 +15,7 @@ pub struct TestRunner {
 
 impl TestRunner {
     pub fn new(scenario: Scenario) -> Self {
-        Self {
-            scenario,
-            collector: Arc::new(SimpleCollector::new()),
-        }
+        Self { scenario, collector: Arc::new(SimpleCollector::new()) }
     }
 
     /// Run the load test
@@ -27,7 +24,7 @@ impl TestRunner {
 
         // Phase 0: Simple implementation with 1 VU
         // TODO: In Phase 1, this will spawn multiple VUs based on load_profile
-        
+
         let iterations = 10; // Hard-coded for Phase 0
         let mut context = VirtualUserContext::new(0);
 
@@ -156,10 +153,7 @@ fn check_assertions(
     // Check status code
     if let Some(expected_status) = assertions.status {
         if response.status != expected_status {
-            return Some(format!(
-                "Expected status {}, got {}",
-                expected_status, response.status
-            ));
+            return Some(format!("Expected status {}, got {}", expected_status, response.status));
         }
     }
 
