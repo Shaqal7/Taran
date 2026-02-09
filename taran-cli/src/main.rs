@@ -8,7 +8,6 @@ use taran_core::runner::TestRunner;
 use taran_report::ConsoleReporter;
 use tracing::info;
 
-
 #[tokio::main]
 async fn main() -> Result<()> {
     let cli = Cli::parse();
